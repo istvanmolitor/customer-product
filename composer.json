@@ -1,5 +1,5 @@
 {
-    "name": "istvanmolitor/customer_product",
+    "name": "istvanmolitor/customer-product",
     "description": "Ügyfél termékeinek kezelése",
     "type": "library",
     "license": "MIT",
@@ -11,7 +11,11 @@
     ],
     "minimum-stability": "dev",
     "require": {
-        "istvanmolitor/customer": "*@dev"
+        "istvanmolitor/admin": "*@dev",
+        "istvanmolitor/customer": "*@dev",
+        "istvanmolitor/currency": "*@dev",
+        "istvanmolitor/language": "*@dev",
+        "istvanmolitor/product": "*@dev"
     },
     "autoload": {
         "psr-4": {

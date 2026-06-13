@@ -1,8 +1,11 @@
 <?php
 
+declare(strict_types=1);
+
 namespace Molitor\CustomerProduct\Providers;
 
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
+use Illuminate\Routing\Router;
 use Molitor\Currency\Repositories\CurrencyRepository;
 use Molitor\Currency\Repositories\CurrencyRepositoryInterface;
 use Molitor\Customer\Events\CustomerDestroyEvent;
@@ -43,14 +46,16 @@ class CustomerProductServiceProvider extends ServiceProvider
         ],
     ];
 
-    public function boot()
+    public function boot(): void
     {
-        $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
-        $this->loadTranslationsFrom(__DIR__ . '/../../resources/lang', 'customer_product');
-        $this->loadViewsFrom(__DIR__ . '/../../resources/views', 'customer_product');
+        $this->loadMigrationsFrom(__DIR__.'/../database/migrations');
+        $this->loadTranslationsFrom(__DIR__.'/../../resources/lang', 'customer_product');
+
+        $this->app->make(Router::class)
+            ->group(['prefix' => 'api'], __DIR__.'/../routes/api.php');
     }
 
-    public function register()
+    public function register(): void
     {
         $this->app->bind(CurrencyRepositoryInterface::class, CurrencyRepository::class);
         $this->app->bind(CustomerProductCategoryProductRepositoryInterface::class, CustomerProductCategoryProductRepository::class);

@@ -6,6 +6,7 @@ return [
     'id' => 'Azonosító',
     'created' => 'Létrehozva',
     'updated' => 'Módosítva',
+    'deleted' => 'Törölve',
     'language' => 'Nyelv',
     'group' => 'Termékek',
     'create' => 'Létrehozás',
