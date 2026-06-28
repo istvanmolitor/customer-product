@@ -26,7 +26,7 @@ class CustomerProductDataTable extends DataTable
         $this->addColumn('sku')->setSearchable()->setOrderable();
         $this->addColumn('name')->setSearchable();
         $this->addColumn('description')->setSearchable();
-        $this->addColumn('keywords')->setSearchable();
+        $this->addColumn('keywords')->setSearchable()->setQueryName('customer_product_translations.keywords');
     }
 
     public function query(Builder $query): Builder
