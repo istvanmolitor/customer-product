@@ -5,9 +5,9 @@ declare(strict_types=1);
 namespace Molitor\CustomerProduct\Http\Controllers\Api;
 
 use Illuminate\Http\JsonResponse;
-use Illuminate\Http\Request;
+use Illuminate\Http\Resources\Json\AnonymousResourceCollection;
 use Illuminate\Routing\Controller;
-use Molitor\Admin\Traits\HasAdminFilters;
+use Molitor\CustomerProduct\DataTables\CustomerProductDataTable;
 use Molitor\Currency\Models\Currency;
 use Molitor\Customer\Models\Customer;
 use Molitor\CustomerProduct\Http\Requests\StoreCustomerProductRequest;
@@ -20,36 +20,14 @@ use Molitor\Product\Models\ProductUnit;
 
 class CustomerProductApiController extends Controller
 {
-    use HasAdminFilters;
-
     public function __construct(
         private CustomerProductCategoryProductRepositoryInterface $customerProductCategoryProductRepository,
     ) {
     }
 
-    public function index(Request $request): JsonResponse
+    public function index(CustomerProductDataTable $dataTable): AnonymousResourceCollection
     {
-        $query = CustomerProduct::query()->joinTranslation()->selectBase()->with([
-            'customer',
-            'currency',
-            'productUnit',
-            'customerProductCategories',
-        ]);
-
-        $customerProducts = $this->applyAdminFilters($query, $request, ['sku', 'name', 'description', 'keywords'])
-            ->paginate(10)
-            ->withQueryString();
-
-        return response()->json([
-            'data' => CustomerProductResource::collection($customerProducts->items()),
-            'meta' => [
-                'current_page' => $customerProducts->currentPage(),
-                'last_page' => $customerProducts->lastPage(),
-                'per_page' => $customerProducts->perPage(),
-                'total' => $customerProducts->total(),
-            ],
-            'filters' => $request->only(['search', 'sort', 'direction']),
-        ]);
+        return $dataTable->getResponse();
     }
 
     public function create(): JsonResponse
