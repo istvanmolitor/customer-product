@@ -29,9 +29,9 @@ class CustomerProductDataTable extends DataTable
         $this->addColumn('keywords')->setSearchable();
     }
 
-    protected function getBaseQuery(): Builder
+    public function query(Builder $query): Builder
     {
-        return CustomerProduct::query()
+        return $query
             ->joinTranslation()
             ->selectBase()
             ->with(['customer', 'currency', 'productUnit', 'customerProductCategories']);

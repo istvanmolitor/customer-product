@@ -29,9 +29,9 @@ class CustomerProductCategoryDataTable extends DataTable
         $this->addColumn('url')->setSearchable();
     }
 
-    protected function getBaseQuery(): Builder
+    public function query(Builder $query): Builder
     {
-        return CustomerProductCategory::query()
+        return $query
             ->joinTranslation()
             ->selectBase()
             ->with(['customer', 'parent']);
